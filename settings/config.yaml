@@ -1,0 +1,28 @@
+name: "ziweiMemo"
+mode: "dev"
+version: "v1.0.0"
+host: "127.0.0.1"
+port: ":8080"
+
+log:
+  level: "debug"
+  file_name: "ziweiMemo.log"
+  max_size: 200
+  max_age: 30
+  max_backups: 7
+
+mysql:
+  host: "127.0.0.1"
+  user: "root"
+  password: "123456"
+  port: ":3306"
+  dbname: "ziweiMemo"
+  max_open_conns: 200
+  max_idle_conns: 10
+
+redis:
+  host: "127.0.0.1"
+  password: "123456"
+  port: ":6379"
+  db: 1
+  pool_size: 100
