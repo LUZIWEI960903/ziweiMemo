@@ -6,7 +6,7 @@ port: ":8080"
 
 log:
   level: "debug"
-  file_name: "ziweiMemo.log"
+  filename: "ziweiMemo.log"
   max_size: 200
   max_age: 30
   max_backups: 7

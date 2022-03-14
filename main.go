@@ -27,7 +27,7 @@ func main() {
 	}
 
 	// 2. 初始化日志
-	if err := logger.Init(settings.Conf.LogConfig); err != nil {
+	if err := logger.Init(settings.Conf.LogConfig, settings.Conf.Mode); err != nil {
 		fmt.Printf("[package: main] [func: main()] [logger.Init(settings.Conf.LogConfig)] failed, err: %v\n", err)
 		return
 	}
@@ -53,7 +53,10 @@ func main() {
 
 	// 6. 启动服务（优雅关机）
 	srv := &http.Server{
-		Addr:    fmt.Sprintf("%s", settings.Conf.Port),
+		Addr: fmt.Sprintf("%s%s",
+			settings.Conf.Host,
+			settings.Conf.Port,
+		),
 		Handler: r,
 	}
 
