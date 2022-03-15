@@ -3,6 +3,7 @@ module ziweiMemo
 go 1.16
 
 require (
+	github.com/bwmarrin/snowflake v0.3.0
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-playground/validator/v10 v10.10.1 // indirect

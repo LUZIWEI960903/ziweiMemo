@@ -16,6 +16,8 @@ type AppConfig struct {
 	Version      string `mapstructure:"version"`
 	Host         string `mapstructure:"host"`
 	Port         string `mapstructure:"port"`
+	StartTime    string `mapstructure:"start_time"`
+	MachineId    int64  `mapstructure:"machine_id"`
 	*LogConfig   `mapstructure:"log"`
 	*MySQLConfig `mapstructure:"mysql"`
 	*RedisConfig `mapstructure:"redis"`
@@ -74,6 +76,6 @@ func Init() (err error) {
 			fmt.Printf("[package: settings] [func: Init()] [viper.Unmarshal(Conf)] failed, err: %v\n", err)
 		}
 	})
-	fmt.Printf("%#v\n", Conf)
+	//fmt.Printf("%#v\n", Conf)
 	return
 }

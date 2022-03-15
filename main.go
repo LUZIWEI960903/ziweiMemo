@@ -12,6 +12,7 @@ import (
 	"ziweiMemo/dao/mysql"
 	"ziweiMemo/dao/redis"
 	"ziweiMemo/logger"
+	"ziweiMemo/pkg/snowflake"
 	"ziweiMemo/router"
 	"ziweiMemo/settings"
 
@@ -47,6 +48,13 @@ func main() {
 		return
 	}
 	defer redis.Close()
+
+	// 加载第三方库
+	if err := snowflake.Init(settings.Conf.StartTime, settings.Conf.MachineId); err != nil {
+		fmt.Printf("[package: main] [func: main()] [redis.Init(settings.Conf.RedisConfig)] failed, err: %v\n", err)
+		return
+	}
+	//fmt.Println(snowflake.GenID())
 
 	// 5. 注册路由
 	r := router.SetUp(settings.Conf.Mode)

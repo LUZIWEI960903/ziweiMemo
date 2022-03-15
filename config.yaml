@@ -3,6 +3,8 @@ mode: "dev"
 version: "v1.0.0"
 host: "127.0.0.1"
 port: ":8080"
+machine_id: 1
+start_time: "2022-03-15"
 
 log:
   level: "debug"
