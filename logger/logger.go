@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 	"net/http/httputil"
@@ -20,7 +19,6 @@ import (
 
 // Init 初始化Logger
 func Init(cfg *settings.LogConfig, mode string) (err error) {
-	fmt.Println("11111111", cfg.Filename)
 	writeSyncer := getLogWriter(
 		cfg.Filename,
 		cfg.MaxSize,
