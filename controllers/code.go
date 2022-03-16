@@ -1,32 +1,32 @@
 package controllers
 
-type resCode int64
+type ResCode int64
 
 const (
-	codeSuccess resCode = 1000 + iota
-	codeInvalidParam
-	codeUserExist
-	codeInvalidPassword
-	codeServerBusy
+	CodeSuccess ResCode = 1000 + iota
+	CodeInvalidParam
+	CodeUserExist
+	CodeInvalidPassword
+	CodeServerBusy
 
-	codeNeedLogin
-	codeInvalidToken
+	CodeNeedLogin
+	CodeInvalidToken
 )
 
-var codeMsgMap = map[resCode]string{
-	codeSuccess:         "Success!!",
-	codeInvalidParam:    "Require params failed!!",
-	codeUserExist:       "User exist!!",
-	codeInvalidPassword: "Username or password error!!",
-	codeServerBusy:      "Server busy!!",
-	codeNeedLogin:       "Please login in first!!",
-	codeInvalidToken:    "Invalid token!!",
+var CodeMsgMap = map[ResCode]string{
+	CodeSuccess:         "Success!!",
+	CodeInvalidParam:    "Require params failed!!",
+	CodeUserExist:       "User exist!!",
+	CodeInvalidPassword: "Username or password error!!",
+	CodeServerBusy:      "Server busy!!",
+	CodeNeedLogin:       "Please login in first!!",
+	CodeInvalidToken:    "Invalid token!!",
 }
 
-func (code resCode) msg() string {
-	msg, ok := codeMsgMap[code]
+func (code ResCode) Msg() string {
+	msg, ok := CodeMsgMap[code]
 	if !ok {
-		msg = codeMsgMap[codeServerBusy]
+		msg = CodeMsgMap[CodeServerBusy]
 	}
 	return msg
 }
