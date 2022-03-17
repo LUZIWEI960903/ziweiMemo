@@ -3,6 +3,7 @@ package logic
 import (
 	"ziweiMemo/dao/mysql"
 	"ziweiMemo/models"
+	"ziweiMemo/pkg/jwt"
 	"ziweiMemo/pkg/snowflake"
 )
 
@@ -36,5 +37,14 @@ func UserLogin(p *models.LoginParams) (user *models.User, err error) {
 	if err := mysql.UserLogin(user); err != nil {
 		return nil, err
 	}
+
+	// 3. 生成token
+	token, err := jwt.GenToken(user.Username, user.UserID)
+
+	if err != nil {
+		return nil, err
+	}
+	// 4. 把生成的token赋值于user.Token中
+	user.Token = token
 	return
 }

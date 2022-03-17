@@ -9,10 +9,12 @@ import (
 
 const (
 	TokenExpireDuration = time.Hour * 24 * 3
-	Mysecret            = "https://github.com/LUZIWEI960903"
 )
 
-var InvalidToken = errors.New("Invalid Token!!")
+var (
+	InvalidToken = errors.New("Invalid Token!!")
+	Mysecret     = []byte("https://github.com/LUZIWEI960903")
+)
 
 // MyClaims 自定义声明结构体并内嵌jwt.StandardClaims
 type MyClaims struct {
