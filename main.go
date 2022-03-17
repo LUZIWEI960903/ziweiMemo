@@ -19,6 +19,11 @@ import (
 	"go.uber.org/zap"
 )
 
+// @title ziweiMemo
+// @version v1.0.0
+// @description Personal projects
+// @host localhost:8080
+// @BasePath /api/v1
 func main() {
 
 	// 1. 加载配置

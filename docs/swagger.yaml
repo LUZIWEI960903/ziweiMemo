@@ -1,0 +1,54 @@
+basePath: /api/v1
+definitions:
+  controllers._ResponseRegister:
+    properties:
+      code:
+        description: "1000"
+        type: integer
+      msg:
+        description: success
+        type: string
+    type: object
+  models.RegisterParams:
+    properties:
+      password:
+        type: string
+      re_password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - re_password
+    - username
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Personal projects
+  title: ziweiMemo
+  version: v1.0.0
+paths:
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: 如果用户存在则注册失败
+      parameters:
+      - description: 需要上传的json
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._ResponseRegister'
+      summary: 用户注册的接口
+      tags:
+      - 用户注册的接口
+swagger: "2.0"

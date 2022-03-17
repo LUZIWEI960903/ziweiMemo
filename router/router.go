@@ -3,6 +3,12 @@ package router
 import (
 	"ziweiMemo/controllers"
 	"ziweiMemo/logger"
+	"ziweiMemo/middleware"
+
+	_ "ziweiMemo/docs" // 千万不要忘了导入把你上一步生成的docs
+
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +19,10 @@ func SetUp(cfgMode string) *gin.Engine {
 	}
 
 	r := gin.New()
-	r.Use(logger.GinLogger(), logger.GinRecovery(true))
+	r.Use(logger.GinLogger(), logger.GinRecovery(true), middleware.Cors())
+
+	// swagger
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// v1 版本
 	v1 := r.Group("/api/v1")
