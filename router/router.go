@@ -29,6 +29,8 @@ func SetUp(cfgMode string) *gin.Engine {
 
 	// 注册功能
 	v1.POST("/register", controllers.UserRegisterHandler)
+	// 登录功能
+	v1.POST("/login", controllers.UserLoginHandler)
 
 	return r
 }
