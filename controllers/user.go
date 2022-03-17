@@ -68,7 +68,7 @@ func UserLoginHandler(c *gin.Context) {
 
 	// 3. 返回响应
 	ResponseSuccess(c, gin.H{
-		"user_id":  fmt.Sprintf("%d", user.UserID), // int64 范围比前端的intiger 范围大，需要转换成string格式处理，不然会失真
+		"user_id":  fmt.Sprintf("%d", user.UserID), // int64 范围比前端的intiger 范围大 需要转换成string格式处理 不然会失真
 		"username": user.Username,
 	})
 }
