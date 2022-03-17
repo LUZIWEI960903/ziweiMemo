@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-openapi/swag v0.21.1 // indirect
@@ -27,7 +28,7 @@ require (
 	go.uber.org/zap v1.21.0
 	golang.org/x/crypto v0.0.0-20220313003712-b769efc7c000 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
-	golang.org/x/sys v0.0.0-20220315194320-039c03cc5b86 // indirect
+	golang.org/x/sys v0.0.0-20220317061510-51cd9980dadf // indirect
 	golang.org/x/tools v0.1.10 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
