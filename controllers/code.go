@@ -12,6 +12,7 @@ const (
 
 	CodeNeedLogin
 	CodeInvalidToken
+	CodeOverdueToken
 )
 
 var CodeMsgMap = map[ResCode]string{
@@ -23,6 +24,7 @@ var CodeMsgMap = map[ResCode]string{
 	CodeServerBusy:      "Server busy!!",
 	CodeNeedLogin:       "Please login in first!!",
 	CodeInvalidToken:    "Invalid token!!",
+	CodeOverdueToken:    "Token overdue!!",
 }
 
 func (code ResCode) Msg() string {

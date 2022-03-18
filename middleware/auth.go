@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"strings"
+	"time"
 	"ziweiMemo/controllers"
 	"ziweiMemo/pkg/jwt"
 
@@ -28,6 +29,11 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		// 解析token
 		claims, err := jwt.ParseToken(tokenList[1])
 		if err != nil {
+			if time.Now().Unix() > claims.StandardClaims.ExpiresAt {
+				controllers.ResponseError(c, controllers.CodeOverdueToken)
+				c.Abort()
+				return
+			}
 			controllers.ResponseError(c, controllers.CodeInvalidToken)
 			c.Abort()
 			return
