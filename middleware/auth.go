@@ -40,6 +40,7 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		}
 		// 将当前请求的username信息保存到请求的上下文c上
 		c.Set(controllers.ContextUsernameKey, claims.Username)
+		c.Set(controllers.ContextUserIDKey, claims.UserID)
 		c.Next()
 	}
 }

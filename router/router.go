@@ -34,7 +34,8 @@ func SetUp(cfgMode string) *gin.Engine {
 	// 以下接口需要通过JWT认证后才能访问
 	v1.Use(middleware.JWTAuthMiddleware())
 	{
-
+		// 创建task
+		v1.POST("/task", controllers.CreateTaskHandler)
 	}
 
 	return r
