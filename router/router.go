@@ -31,6 +31,11 @@ func SetUp(cfgMode string) *gin.Engine {
 	v1.POST("/register", controllers.UserRegisterHandler)
 	// 登录功能
 	v1.POST("/login", controllers.UserLoginHandler)
+	// 以下接口需要通过JWT认证后才能访问
+	v1.Use(middleware.JWTAuthMiddleware())
+	{
+
+	}
 
 	return r
 }
