@@ -1,13 +1,40 @@
 basePath: /api/v1
 definitions:
+  controllers._ResponseLogin:
+    properties:
+      code:
+        description: 状态码
+        example: 1000
+        type: integer
+      data:
+        description: 数据
+      msg:
+        description: 信息
+        example: Success!!
+        type: string
+    type: object
   controllers._ResponseRegister:
     properties:
       code:
-        description: "1000"
+        description: 状态码
+        example: 1000
         type: integer
       msg:
-        description: success
+        description: 信息
+        example: Success!!
         type: string
+    type: object
+  models.LoginParams:
+    properties:
+      password:
+        description: 密码
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - password
+    - username
     type: object
   models.RegisterParams:
     properties:
@@ -32,11 +59,31 @@ info:
   title: ziweiMemo
   version: v1.0.0
 paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 需要上传的json
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._ResponseLogin'
+      summary: 用户登录的接口
+      tags:
+      - 用户接口
   /register:
     post:
       consumes:
       - application/json
-      description: 如果用户存在则注册失败
       parameters:
       - description: 需要上传的json
         in: body
@@ -53,5 +100,5 @@ paths:
             $ref: '#/definitions/controllers._ResponseRegister'
       summary: 用户注册的接口
       tags:
-      - 用户注册的接口
+      - 用户接口
 swagger: "2.0"

@@ -14,8 +14,7 @@ import (
 
 // UserRegisterHandler 用户注册的接口
 // @Summary 用户注册的接口
-// @Description 如果用户存在则注册失败
-// @Tags 用户注册的接口
+// @Tags 用户接口
 // @Accept json
 // @Produce json
 // @Param register body models.RegisterParams true "需要上传的json"
@@ -45,6 +44,14 @@ func UserRegisterHandler(c *gin.Context) {
 	ResponseSuccess(c, nil)
 }
 
+// UserLoginHandler 用户登录的接口
+// @Summary 用户登录的接口
+// @Tags 用户接口
+// @Accept json
+// @Produce json
+// @Param login body models.LoginParams true "需要上传的json"
+// @Success 200 {object} _ResponseLogin
+// @Router /login [post]
 func UserLoginHandler(c *gin.Context) {
 	// 1. 解析参数
 	p := new(models.LoginParams)

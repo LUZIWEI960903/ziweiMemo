@@ -16,9 +16,8 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/register": {
+        "/login": {
             "post": {
-                "description": "如果用户存在则注册失败",
                 "consumes": [
                     "application/json"
                 ],
@@ -26,7 +25,40 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户注册的接口"
+                    "用户接口"
+                ],
+                "summary": "用户登录的接口",
+                "parameters": [
+                    {
+                        "description": "需要上传的json",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers._ResponseLogin"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户接口"
                 ],
                 "summary": "用户注册的接口",
                 "parameters": [
@@ -52,15 +84,52 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "controllers._ResponseLogin": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
+                },
+                "data": {
+                    "description": "数据"
+                },
+                "msg": {
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
         "controllers._ResponseRegister": {
             "type": "object",
             "properties": {
                 "code": {
-                    "description": "1000",
-                    "type": "integer"
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
                 },
                 "msg": {
-                    "description": "success",
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
+        "models.LoginParams": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
                     "type": "string"
                 }
             }
