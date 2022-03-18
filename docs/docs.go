@@ -81,9 +81,89 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/task": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "task接口"
+                ],
+                "summary": "创建task的接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "需要上传的json",
+                        "name": "create_task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers._RequestCreateTask"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers._ResponseCreateTask"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "controllers._RequestCreateTask": {
+            "type": "object",
+            "required": [
+                "content",
+                "title",
+                "user_id"
+            ],
+            "properties": {
+                "content": {
+                    "description": "备忘录内容",
+                    "type": "string",
+                    "example": "生命不惜，卷卷不止~~"
+                },
+                "title": {
+                    "description": "备忘录标题",
+                    "type": "string",
+                    "example": "卷卷卷"
+                },
+                "user_id": {
+                    "description": "创建者id",
+                    "type": "string",
+                    "example": "437364308578304"
+                }
+            }
+        },
+        "controllers._ResponseCreateTask": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
+                },
+                "msg": {
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
         "controllers._ResponseLogin": {
             "type": "object",
             "properties": {

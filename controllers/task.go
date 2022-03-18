@@ -10,7 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateTaskHandler 创建task的处理函数
+// CreateTaskHandler 创建task的接口
+// @Summary 创建task的接口
+// @Tags task接口
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer JWT"
+// @Param create_task body _RequestCreateTask true "需要上传的json"
+// @Success 200 {object} _ResponseCreateTask
+// @Router /task [post]
 func CreateTaskHandler(c *gin.Context) {
 	// 校验参数
 	task := new(models.Task)

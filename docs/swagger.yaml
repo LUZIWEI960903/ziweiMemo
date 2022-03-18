@@ -1,5 +1,35 @@
 basePath: /api/v1
 definitions:
+  controllers._RequestCreateTask:
+    properties:
+      content:
+        description: 备忘录内容
+        example: 生命不惜，卷卷不止~~
+        type: string
+      title:
+        description: 备忘录标题
+        example: 卷卷卷
+        type: string
+      user_id:
+        description: 创建者id
+        example: "437364308578304"
+        type: string
+    required:
+    - content
+    - title
+    - user_id
+    type: object
+  controllers._ResponseCreateTask:
+    properties:
+      code:
+        description: 状态码
+        example: 1000
+        type: integer
+      msg:
+        description: 信息
+        example: Success!!
+        type: string
+    type: object
   controllers._ResponseLogin:
     properties:
       code:
@@ -101,4 +131,30 @@ paths:
       summary: 用户注册的接口
       tags:
       - 用户接口
+  /task:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bearer JWT
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 需要上传的json
+        in: body
+        name: create_task
+        required: true
+        schema:
+          $ref: '#/definitions/controllers._RequestCreateTask'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._ResponseCreateTask'
+      summary: 创建task的接口
+      tags:
+      - task接口
 swagger: "2.0"
