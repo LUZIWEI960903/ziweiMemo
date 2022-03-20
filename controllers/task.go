@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"ziweiMemo/logic"
 	"ziweiMemo/models"
 
@@ -23,7 +22,6 @@ func CreateTaskHandler(c *gin.Context) {
 	// 校验参数
 	task := new(models.Task)
 	if err := c.ShouldBindJSON(task); err != nil {
-		fmt.Println(task)
 		zap.L().Error("[package: controllers] [func: CreateTaskHandler] [c.ShouldBindJSON(&task)] failed, ", zap.Error(err))
 		ResponseError(c, CodeInvalidParam)
 		return

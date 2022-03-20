@@ -42,3 +42,28 @@ func TestUserRegisterHandler(t *testing.T) {
 	assert.Contains(t, w.Body.String(), "参数校验成功")
 
 }
+
+func userLoginHandler(c *gin.Context) {
+	p := new(models.LoginParams)
+	if err := c.ShouldBindJSON(p); err != nil {
+		return
+	}
+	c.String(http.StatusOK, "参数校验成功")
+}
+
+func TestUserLoginHandler(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	url := "/api/v1/login"
+	r.POST(url, userLoginHandler)
+
+	body := `{"username": "zs1", "password": "123"}`
+
+	req, _ := http.NewRequest(http.MethodPost, url, bytes.NewReader([]byte(body)))
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Contains(t, w.Body.String(), "参数校验成功")
+}

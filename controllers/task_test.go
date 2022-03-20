@@ -9,18 +9,13 @@ import (
 	"testing"
 	"ziweiMemo/models"
 
-	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
-
 	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 )
 
 func createTaskHandler(c *gin.Context) {
 	task := new(models.Task)
 	if err := c.ShouldBindJSON(task); err != nil {
-		fmt.Println(task)
-		zap.L().Error("[package: controllers] [func: CreateTaskHandler] [c.ShouldBindJSON(&task)] failed, ", zap.Error(err))
-		ResponseError(c, CodeInvalidParam)
 		return
 	}
 	userIdStr := c.Request.Header.Get(ContextUserIDKey)
@@ -38,7 +33,7 @@ func TestCreateTaskHandler(t *testing.T) {
 
 	body := `{"title":"卷卷卷","content":"生命不惜，卷卷不止~~"}`
 
-	req, _ := http.NewRequest("POST", url, bytes.NewReader([]byte(body)))
+	req, _ := http.NewRequest(http.MethodPost, url, bytes.NewReader([]byte(body)))
 	req.Header.Set(ContextUserIDKey, "936021537591296")
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
