@@ -32,3 +32,15 @@ func TestInsertUser(t *testing.T) {
 	}
 	t.Log("InsertUser(user) success!!")
 }
+
+func TestUserLogin(t *testing.T) {
+	user := &models.User{
+		UserID:   1,
+		Username: "testName",
+		Password: "123",
+	}
+	if err := UserLogin(user); err != nil {
+		t.Fatalf("failed~~")
+	}
+	t.Log("success!!")
+}
