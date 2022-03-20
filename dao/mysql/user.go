@@ -50,7 +50,6 @@ func UserLogin(user *models.User) (err error) {
 	oPassword := user.Password
 
 	sqlStr := `select user_id, username, password from user where username = ?;`
-
 	err = db.Get(user, sqlStr, user.Username)
 	if err == sql.ErrNoRows { // 用户不存在
 		return ErrorUserNotExist

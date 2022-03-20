@@ -3,7 +3,9 @@ package logic
 import (
 	"testing"
 	"time"
+	"ziweiMemo/dao/mysql"
 	"ziweiMemo/models"
+	"ziweiMemo/settings"
 
 	sf "github.com/bwmarrin/snowflake"
 )
@@ -16,6 +18,19 @@ func init() {
 	sf.Epoch = st.UnixNano() / 1000000
 	node, _ := sf.NewNode(1)
 	GenID = node.Generate().Int64()
+
+	dbCfg := settings.MySQLConfig{
+		Host:         "127.0.0.1",
+		User:         "root",
+		Password:     "123456",
+		Port:         ":3306",
+		DbName:       "ziweiMemo",
+		MaxOpenConns: 10,
+		MaxIdleConns: 10,
+	}
+	if err := mysql.Init(&dbCfg); err != nil {
+		panic(err)
+	}
 }
 
 func TestUserRegister(t *testing.T) {
@@ -32,5 +47,17 @@ func TestUserRegister(t *testing.T) {
 	//}
 	if !(user.UserID == userId && user.Username == "testuser" && user.Password == "testpassword") {
 		t.Fatal("models.User error!!")
+	}
+}
+
+func TestUserLogin(t *testing.T) {
+	user := &models.LoginParams{
+		Username: "zs1",
+		Password: "123",
+	}
+
+	_, err := UserLogin(user)
+	if err == mysql.ErrorUserNotExist {
+		t.Log("success!!")
 	}
 }
