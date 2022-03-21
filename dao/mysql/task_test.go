@@ -31,3 +31,11 @@ func TestShowATaskByTaskID(t *testing.T) {
 	}
 	t.Log("success!!", taskDetail)
 }
+
+func TestGetTaskListByUserId(t *testing.T) {
+	taskList, err := GetTaskListByUserId(437364308578304)
+	if err != nil {
+		t.Fatal("failed~~")
+	}
+	t.Log("success!!", taskList)
+}
