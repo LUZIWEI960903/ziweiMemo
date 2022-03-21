@@ -66,8 +66,14 @@ func ShowATaskHandler(c *gin.Context) {
 		return
 	}
 
+	userId, err := getCurrentUserID(c)
+	if err != nil {
+		ResponseError(c, CodeNeedLogin)
+		return
+	}
+
 	// 2. 业务逻辑
-	taskData, err := logic.ShowATaskByTaskID(taskId)
+	taskData, err := logic.ShowATaskByTaskID(taskId, userId)
 	if err != nil {
 		zap.L().Error("[package: controllers] [func: ShowATaskHandler] [logic.ShowATaskHandler(taskId)] failed, ", zap.Error(err))
 		ResponseError(c, CodeServerBusy)

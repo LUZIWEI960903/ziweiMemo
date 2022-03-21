@@ -25,7 +25,7 @@ func TestCreateTask(t *testing.T) {
 }
 
 func TestShowATaskByTaskID(t *testing.T) {
-	taskDetail, err := ShowATaskByTaskID(1249050435260416)
+	taskDetail, err := ShowATaskByTaskID(1249050435260416, 437364308578304)
 	if err != nil {
 		t.Fatal("failed~~")
 	}

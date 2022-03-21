@@ -14,7 +14,7 @@ func CreateTask(ts *models.Task) (err error) {
 }
 
 // ShowATaskByTaskID 根据taskid查询task信息
-func ShowATaskByTaskID(taskId int64) (taskDetail *models.Task, err error) {
+func ShowATaskByTaskID(taskId, userId int64) (taskDetail *models.Task, err error) {
 	taskDetail = new(models.Task)
 	sqlStr := `select task_id, user_id, status, title, content, start_time, end_time, create_time, update_time from task where task_id = ?;`
 
@@ -23,6 +23,12 @@ func ShowATaskByTaskID(taskId int64) (taskDetail *models.Task, err error) {
 			return nil, ErrorInvalidID
 		}
 	}
+
+	// 判断当前查询出来的task是否属于当前用户
+	if taskDetail.UserId != userId {
+		return nil, ErrorPermissionDenied
+	}
+
 	return
 }
 
