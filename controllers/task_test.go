@@ -41,3 +41,28 @@ func TestCreateTaskHandler(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Contains(t, w.Body.String(), "936021537591296")
 }
+
+func showATaskHandler(c *gin.Context) {
+	taskIdStr := c.Param("id")
+	_, err := strconv.ParseInt(taskIdStr, 10, 64)
+	if err != nil {
+		return
+	}
+	c.String(http.StatusOK, "参数解析成功")
+}
+
+func TestShowATaskHandler(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	url := "/api/vi/task/:id"
+	r.GET(url, showATaskHandler)
+
+	req, _ := http.NewRequest(http.MethodGet, url, bytes.NewReader([]byte(nil)))
+	req.URL.Path = "/api/vi/task/1249050435260416"
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Contains(t, w.Body.String(), "参数解析成功")
+}
