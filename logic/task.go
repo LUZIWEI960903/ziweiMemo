@@ -24,3 +24,8 @@ func CreateTask(task *models.Task) (err error) {
 func ShowATaskByTaskID(taskId int64) (*models.Task, error) {
 	return mysql.ShowATaskByTaskID(taskId)
 }
+
+// GetTaskListByUserId 查询该用户是所有task
+func GetTaskListByUserId(userId int64) ([]*models.Task, error) {
+	return mysql.GetTaskListByUserId(userId)
+}

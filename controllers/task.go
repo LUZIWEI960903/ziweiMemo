@@ -77,3 +77,24 @@ func ShowATaskHandler(c *gin.Context) {
 	// 3. 返回响应
 	ResponseSuccess(c, taskData)
 }
+
+// ShowAllTaskHandler 展示当前用户所有的task的接口
+func ShowAllTaskHandler(c *gin.Context) {
+	// 1. 从JWT解析中获取userId
+	userId, err := getCurrentUserID(c)
+	if err != nil {
+		ResponseError(c, CodeNeedLogin)
+		return
+	}
+
+	// 2. 业务逻辑
+	taskList, err := logic.GetTaskListByUserId(userId)
+	if err != nil {
+		zap.L().Error("[package: controllers] [func: ShowAllTaskHandler] [logic.GetTaskListByUserId(userId)] failed, ", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 3. 返回响应
+	ResponseSuccess(c, taskList)
+}

@@ -25,3 +25,13 @@ func ShowATaskByTaskID(taskId int64) (taskDetail *models.Task, err error) {
 	}
 	return
 }
+
+// GetTaskListByUserId 根据当前用户查询其所有task信息
+func GetTaskListByUserId(userId int64) (taskList []*models.Task, err error) {
+	sqlStr := `select task_id, user_id, status, title, content, start_time, end_time, create_time, update_time from task where user_id = ?;`
+
+	if err = db.Select(&taskList, sqlStr, userId); err != nil {
+		return nil, err
+	}
+	return
+}
