@@ -33,9 +33,15 @@ func TestShowATaskByTaskID(t *testing.T) {
 }
 
 func TestGetTaskListByUserId(t *testing.T) {
-	taskList, err := GetTaskListByUserId(437364308578304)
+	taskList, err := GetTaskListByUserId(437364308578304, &models.TaskListParam{
+		Page:  1,
+		Size:  2,
+		Order: "time",
+	})
 	if err != nil {
 		t.Fatal("failed~~")
 	}
-	t.Log("success!!", taskList)
+	for _, v := range taskList {
+		t.Logf("%v\n", *v)
+	}
 }

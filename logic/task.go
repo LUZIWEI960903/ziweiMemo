@@ -26,6 +26,6 @@ func ShowATaskByTaskID(taskId, userId int64) (*models.Task, error) {
 }
 
 // GetTaskListByUserId 查询该用户是所有task
-func GetTaskListByUserId(userId int64) ([]*models.Task, error) {
-	return mysql.GetTaskListByUserId(userId)
+func GetTaskListByUserId(userId int64, p *models.TaskListParam) ([]*models.Task, error) {
+	return mysql.GetTaskListByUserId(userId, p)
 }

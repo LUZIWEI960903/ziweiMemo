@@ -200,6 +200,18 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: size
+        in: query
+        name: size
+        type: string
+      - description: order
+        in: query
+        name: order
+        type: string
       produces:
       - application/json
       responses:

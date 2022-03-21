@@ -68,8 +68,16 @@ func TestShowATaskHandler(t *testing.T) {
 }
 
 func showAllTaskHandler(c *gin.Context) {
+	p, err := getPageInfo(c)
+	if err != nil {
+		return
+	}
 	userIdStr := c.Request.Header.Get(ContextUserIDKey)
-	c.String(http.StatusOK, userIdStr)
+	c.JSON(http.StatusOK, gin.H{
+		"userId": userIdStr,
+		"page":   p.Page,
+		"size":   p.Size,
+	})
 }
 
 func TestShowAllTaskHandler(t *testing.T) {
@@ -79,11 +87,15 @@ func TestShowAllTaskHandler(t *testing.T) {
 	r.GET(url, showAllTaskHandler)
 
 	req, _ := http.NewRequest(http.MethodGet, url, bytes.NewReader([]byte(nil)))
-	req.Header.Set(ContextUserIDKey, "437364308578304")
+	req.Header.Set(ContextUserIDKey, "453796320776192")
+	req.URL.Query().Set("page", "1")
+	req.URL.Query().Set("size", "2")
 
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.Contains(t, w.Body.String(), "437364308578304")
+	assert.Contains(t, w.Body.String(), "\"userId\":\"453796320776192\"")
+	assert.Contains(t, w.Body.String(), "\"page\":1")
+	assert.Contains(t, w.Body.String(), "\"size\":2")
 }
