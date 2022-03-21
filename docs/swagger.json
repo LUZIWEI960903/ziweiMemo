@@ -76,6 +76,35 @@
             }
         },
         "/task": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "task接口"
+                ],
+                "summary": "展示当前用户所有的task的接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers._ResponseShowAllTask"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -233,6 +262,28 @@
                 "data": {
                     "description": "具体task信息",
                     "$ref": "#/definitions/models.Task"
+                },
+                "msg": {
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
+        "controllers._ResponseShowAllTask": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
+                },
+                "data": {
+                    "description": "所有task信息",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Task"
+                    }
                 },
                 "msg": {
                     "description": "信息",

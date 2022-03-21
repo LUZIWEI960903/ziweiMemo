@@ -23,3 +23,9 @@ type _ResponseShowATask struct {
 	Msg  string       `json:"msg" example:"Success!!"` // 信息
 	Data *models.Task `json:"data"`                    // 具体task信息
 }
+
+type _ResponseShowAllTask struct {
+	Code ResCode        `json:"code" example:"1000"`     // 状态码
+	Msg  string         `json:"msg" example:"Success!!"` // 信息
+	Data []*models.Task `json:"data"`                    // 所有task信息
+}

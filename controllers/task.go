@@ -79,6 +79,13 @@ func ShowATaskHandler(c *gin.Context) {
 }
 
 // ShowAllTaskHandler 展示当前用户所有的task的接口
+// @Summary 展示当前用户所有的task的接口
+// @Tags task接口
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer JWT"
+// @Success 200 {object} _ResponseShowAllTask
+// @Router /task [get]
 func ShowAllTaskHandler(c *gin.Context) {
 	// 1. 从JWT解析中获取userId
 	userId, err := getCurrentUserID(c)
