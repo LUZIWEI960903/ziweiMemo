@@ -121,6 +121,44 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/task/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "task接口"
+                ],
+                "summary": "展示一条task详情的接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers._ResponseShowATask"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -128,8 +166,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "content",
-                "title",
-                "user_id"
+                "title"
             ],
             "properties": {
                 "content": {
@@ -141,11 +178,6 @@ const docTemplate = `{
                     "description": "备忘录标题",
                     "type": "string",
                     "example": "卷卷卷"
-                },
-                "user_id": {
-                    "description": "创建者id",
-                    "type": "string",
-                    "example": "437364308578304"
                 }
             }
         },
@@ -197,6 +229,25 @@ const docTemplate = `{
                 }
             }
         },
+        "controllers._ResponseShowATask": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
+                },
+                "data": {
+                    "description": "具体task信息",
+                    "$ref": "#/definitions/models.Task"
+                },
+                "msg": {
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
         "models.LoginParams": {
             "type": "object",
             "required": [
@@ -233,6 +284,52 @@ const docTemplate = `{
                 "username": {
                     "description": "用户名",
                     "type": "string"
+                }
+            }
+        },
+        "models.Task": {
+            "type": "object",
+            "required": [
+                "content",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "description": "备忘录内容",
+                    "type": "string"
+                },
+                "create_time": {
+                    "description": "备忘录创建时间",
+                    "type": "string"
+                },
+                "end_time": {
+                    "description": "备忘录结束时间",
+                    "type": "string"
+                },
+                "start_time": {
+                    "description": "备忘录开始时间",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "完成状态，默认0（未完成），1（完成）",
+                    "type": "integer"
+                },
+                "task_id": {
+                    "description": "备忘录id",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "备忘录标题",
+                    "type": "string"
+                },
+                "update_time": {
+                    "description": "备忘录最新修改时间",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "创建者id",
+                    "type": "string",
+                    "example": "0"
                 }
             }
         }

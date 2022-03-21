@@ -10,14 +10,9 @@ definitions:
         description: 备忘录标题
         example: 卷卷卷
         type: string
-      user_id:
-        description: 创建者id
-        example: "437364308578304"
-        type: string
     required:
     - content
     - title
-    - user_id
     type: object
   controllers._ResponseCreateTask:
     properties:
@@ -54,6 +49,20 @@ definitions:
         example: Success!!
         type: string
     type: object
+  controllers._ResponseShowATask:
+    properties:
+      code:
+        description: 状态码
+        example: 1000
+        type: integer
+      data:
+        $ref: '#/definitions/models.Task'
+        description: 具体task信息
+      msg:
+        description: 信息
+        example: Success!!
+        type: string
+    type: object
   models.LoginParams:
     properties:
       password:
@@ -81,6 +90,40 @@ definitions:
     - password
     - re_password
     - username
+    type: object
+  models.Task:
+    properties:
+      content:
+        description: 备忘录内容
+        type: string
+      create_time:
+        description: 备忘录创建时间
+        type: string
+      end_time:
+        description: 备忘录结束时间
+        type: string
+      start_time:
+        description: 备忘录开始时间
+        type: string
+      status:
+        description: 完成状态，默认0（未完成），1（完成）
+        type: integer
+      task_id:
+        description: 备忘录id
+        type: integer
+      title:
+        description: 备忘录标题
+        type: string
+      update_time:
+        description: 备忘录最新修改时间
+        type: string
+      user_id:
+        description: 创建者id
+        example: "0"
+        type: string
+    required:
+    - content
+    - title
     type: object
 host: localhost:8080
 info:
@@ -155,6 +198,31 @@ paths:
           schema:
             $ref: '#/definitions/controllers._ResponseCreateTask'
       summary: 创建task的接口
+      tags:
+      - task接口
+  /task/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bearer JWT
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._ResponseShowATask'
+      summary: 展示一条task详情的接口
       tags:
       - task接口
 swagger: "2.0"

@@ -1,5 +1,7 @@
 package controllers
 
+import "ziweiMemo/models"
+
 type _ResponseRegister struct {
 	Code ResCode `json:"code" example:"1000"`     // 状态码
 	Msg  string  `json:"msg" example:"Success!!"` // 信息
@@ -14,4 +16,10 @@ type _ResponseLogin struct {
 type _ResponseCreateTask struct {
 	Code ResCode `json:"code" example:"1000"`     // 状态码
 	Msg  string  `json:"msg" example:"Success!!"` // 信息
+}
+
+type _ResponseShowATask struct {
+	Code ResCode      `json:"code" example:"1000"`     // 状态码
+	Msg  string       `json:"msg" example:"Success!!"` // 信息
+	Data *models.Task `json:"data"`                    // 具体task信息
 }

@@ -48,6 +48,14 @@ func CreateTaskHandler(c *gin.Context) {
 }
 
 // ShowATaskHandler 展示一条task详情的接口
+// @Summary 展示一条task详情的接口
+// @Tags task接口
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer JWT"
+// @Param   id     path    string     true        "id"
+// @Success 200 {object} _ResponseShowATask
+// @Router /task/{id} [get]
 func ShowATaskHandler(c *gin.Context) {
 	// 1. 解析参数
 	taskIdStr := c.Param("id")
