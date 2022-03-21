@@ -23,3 +23,11 @@ func TestCreateTask(t *testing.T) {
 	}
 	t.Log("testing success!!")
 }
+
+func TestShowATaskByTaskID(t *testing.T) {
+	taskDetail, err := ShowATaskByTaskID(1249050435260416)
+	if err != nil {
+		t.Fatal("failed~~")
+	}
+	t.Log("success!!", taskDetail)
+}
