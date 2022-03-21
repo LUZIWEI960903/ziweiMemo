@@ -13,18 +13,20 @@ const (
 	CodeNeedLogin
 	CodeInvalidToken
 	CodeOverdueToken
+	CodePermissionDenied
 )
 
 var CodeMsgMap = map[ResCode]string{
-	CodeSuccess:         "Success!!",
-	CodeInvalidParam:    "Require params failed!!",
-	CodeUserExist:       "User exist!!",
-	CodeUserNotExist:    "User not exist!!",
-	CodeInvalidPassword: "Username or password error!!",
-	CodeServerBusy:      "Server busy!!",
-	CodeNeedLogin:       "Please login in first!!",
-	CodeInvalidToken:    "Invalid token!!",
-	CodeOverdueToken:    "Token overdue!!",
+	CodeSuccess:          "Success!!",
+	CodeInvalidParam:     "Require params failed!!",
+	CodeUserExist:        "User exist!!",
+	CodeUserNotExist:     "User not exist!!",
+	CodeInvalidPassword:  "Username or password error!!",
+	CodeServerBusy:       "Server busy!!",
+	CodeNeedLogin:        "Please login in first!!",
+	CodeInvalidToken:     "Invalid token!!",
+	CodeOverdueToken:     "Token overdue!!",
+	CodePermissionDenied: "Permission denied!!",
 }
 
 func (code ResCode) Msg() string {

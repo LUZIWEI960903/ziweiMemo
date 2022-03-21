@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"errors"
 	"strconv"
+	"ziweiMemo/dao/mysql"
 	"ziweiMemo/logic"
 	"ziweiMemo/models"
 
@@ -121,4 +123,38 @@ func ShowAllTaskHandler(c *gin.Context) {
 
 	// 4. 返回响应
 	ResponseSuccess(c, taskList)
+}
+
+// UpdateTaskHandler 更新指定task信息的接口
+func UpdateTaskHandler(c *gin.Context) {
+	// 1. 解析参数
+	taskIdStr := c.Param("id")
+	taskId, err := strconv.ParseInt(taskIdStr, 10, 64)
+	if err != nil {
+		zap.L().Error("[package: controllers] [func: UpdateTaskHandler] [c.Param(\"id\")] failed, ", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	// 2. 从JWT解析中获取userId
+	userId, err := getCurrentUserID(c)
+	if err != nil {
+		ResponseError(c, CodeNeedLogin)
+		return
+	}
+
+	// 3. 业务逻辑
+	err = logic.UpdateTask(taskId, userId)
+	if err != nil {
+		if errors.Is(err, mysql.ErrorPermissionDenied) {
+			ResponseError(c, CodePermissionDenied)
+			return
+		}
+		zap.L().Error("[package: controllers] [func: UpdateTaskHandler] [logic.UpdateTask(taskId, userId)] failed, ", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 4. 返回响应
+	ResponseSuccess(c, nil)
 }

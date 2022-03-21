@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"database/sql"
+	"fmt"
 	"ziweiMemo/models"
 )
 
@@ -40,5 +41,27 @@ func GetTaskListByUserId(userId int64, p *models.TaskListParam) (taskList []*mod
 	if err = db.Select(&taskList, sqlStr, userId, (p.Page-1)*p.Size, p.Size); err != nil {
 		return nil, err
 	}
+	return
+}
+
+// UpdateTask 根据当前用户更新对应task的信息
+func UpdateTask(taskId, userId int64) (err error) {
+	// 查询该taskId
+	task := new(models.Task)
+	sqlStr1 := `select task_id, user_id, status, title, content, start_time, end_time, create_time, update_time from task where task_id = ?;`
+	if err = db.Get(task, sqlStr1, taskId); err != nil {
+		if err == sql.ErrNoRows {
+			return ErrorInvalidID
+		}
+	}
+	fmt.Println(userId, task)
+	// 判断当前查询出来的task是否属于当前用户
+	if task.UserId != userId {
+		return ErrorPermissionDenied
+	}
+
+	// 更新数据
+	sqlStr2 := `update task set status=1 where task_id = ?;`
+	_, err = db.Exec(sqlStr2, taskId)
 	return
 }

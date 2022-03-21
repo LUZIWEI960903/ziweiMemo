@@ -40,6 +40,8 @@ func SetUp(cfgMode string) *gin.Engine {
 		v1.GET("task/:id", controllers.ShowATaskHandler)
 		// 查询当前用户的所有task
 		v1.GET("task", controllers.ShowAllTaskHandler)
+		// 更新指定task内容
+		v1.PUT("task/:id", controllers.UpdateTaskHandler)
 	}
 
 	return r
