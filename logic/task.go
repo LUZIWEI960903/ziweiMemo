@@ -19,3 +19,8 @@ func CreateTask(task *models.Task) (err error) {
 	}
 	return
 }
+
+// ShowATaskByTaskID 展示一条task的具体逻辑
+func ShowATaskByTaskID(taskId int64) (*models.Task, error) {
+	return mysql.ShowATaskByTaskID(taskId)
+}

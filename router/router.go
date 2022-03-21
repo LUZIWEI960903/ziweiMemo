@@ -36,6 +36,8 @@ func SetUp(cfgMode string) *gin.Engine {
 	{
 		// 创建task
 		v1.POST("/task", controllers.CreateTaskHandler)
+		// 展示一条task
+		v1.GET("task/:id", controllers.ShowATaskHandler)
 	}
 
 	return r

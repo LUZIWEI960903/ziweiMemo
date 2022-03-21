@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"strconv"
 	"ziweiMemo/logic"
 	"ziweiMemo/models"
 
@@ -44,4 +45,27 @@ func CreateTaskHandler(c *gin.Context) {
 
 	// 返回响应
 	ResponseSuccess(c, nil)
+}
+
+// ShowATaskHandler 展示一条task详情的接口
+func ShowATaskHandler(c *gin.Context) {
+	// 1. 解析参数
+	taskIdStr := c.Param("id")
+	taskId, err := strconv.ParseInt(taskIdStr, 10, 64)
+	if err != nil {
+		zap.L().Error("[package: controllers] [func: ShowATaskHandler] [c.Param(\"id\")] failed, ", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	// 2. 业务逻辑
+	taskData, err := logic.ShowATaskByTaskID(taskId)
+	if err != nil {
+		zap.L().Error("[package: controllers] [func: ShowATaskHandler] [logic.ShowATaskHandler(taskId)] failed, ", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 3. 返回响应
+	ResponseSuccess(c, taskData)
 }
