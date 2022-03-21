@@ -66,3 +66,24 @@ func TestShowATaskHandler(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Contains(t, w.Body.String(), "参数解析成功")
 }
+
+func showAllTaskHandler(c *gin.Context) {
+	userIdStr := c.Request.Header.Get(ContextUserIDKey)
+	c.String(http.StatusOK, userIdStr)
+}
+
+func TestShowAllTaskHandler(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	url := "/api/v1/task"
+	r.GET(url, showAllTaskHandler)
+
+	req, _ := http.NewRequest(http.MethodGet, url, bytes.NewReader([]byte(nil)))
+	req.Header.Set(ContextUserIDKey, "437364308578304")
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Contains(t, w.Body.String(), "437364308578304")
+}
