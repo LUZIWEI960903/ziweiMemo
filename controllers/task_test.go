@@ -99,3 +99,44 @@ func TestShowAllTaskHandler(t *testing.T) {
 	assert.Contains(t, w.Body.String(), "\"page\":1")
 	assert.Contains(t, w.Body.String(), "\"size\":2")
 }
+
+func updateTaskHandler(c *gin.Context) {
+	taskIdStr := c.Param("id")
+	taskId, err := strconv.ParseInt(taskIdStr, 10, 64)
+	if err != nil {
+		return
+	}
+
+	userIdStr := c.Request.Header.Get(ContextUserIDKey)
+
+	updateTaskInfo := new(models.UpdateTask)
+	if err := c.ShouldBindJSON(updateTaskInfo); err != nil {
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"taskId":         taskId,
+		"userId":         userIdStr,
+		"updateTaskInfo": updateTaskInfo,
+	})
+}
+
+func TestUpdateTaskHandler(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	url := "/api/v1/task/:id"
+	r.PUT(url, updateTaskHandler)
+
+	body := `{"status":"1","title":"生活","content":"生活就像海洋","start_time":"2020-01-01 08:08:08","end_time":"2020-01-01 08:08:08"}`
+
+	req, _ := http.NewRequest(http.MethodPut, url, bytes.NewReader([]byte(body)))
+	req.Header.Set(ContextUserIDKey, "936021537591296")
+	req.URL.Path = "/api/v1/task/2389096492175360"
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Contains(t, w.Body.String(), "2389096492175360")
+	assert.Contains(t, w.Body.String(), "936021537591296")
+	assert.Contains(t, w.Body.String(), body)
+}
