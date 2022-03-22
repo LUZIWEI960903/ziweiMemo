@@ -41,11 +41,15 @@ func GetTaskListByUserId(userId int64, p *models.TaskListParam) (taskList []*mod
 	if err = db.Select(&taskList, sqlStr, userId, (p.Page-1)*p.Size, p.Size); err != nil {
 		return nil, err
 	}
+	for _, v := range taskList {
+		fmt.Println(*v)
+	}
+
 	return
 }
 
 // UpdateTask 根据当前用户更新对应task的信息
-func UpdateTask(taskId, userId int64) (err error) {
+func UpdateTask(taskId, userId int64, ts *models.UpdateTask) (err error) {
 	// 查询该taskId
 	task := new(models.Task)
 	sqlStr1 := `select task_id, user_id, status, title, content, start_time, end_time, create_time, update_time from task where task_id = ?;`
@@ -54,14 +58,17 @@ func UpdateTask(taskId, userId int64) (err error) {
 			return ErrorInvalidID
 		}
 	}
-	fmt.Println(userId, task)
+	fmt.Printf("%#v\n", task)
 	// 判断当前查询出来的task是否属于当前用户
 	if task.UserId != userId {
 		return ErrorPermissionDenied
 	}
 
 	// 更新数据
-	sqlStr2 := `update task set status=1 where task_id = ?;`
-	_, err = db.Exec(sqlStr2, taskId)
+
+	sqlStr2 := `update task set status=?, title=?, content=?, start_time=?, end_time=? where task_id = ?;`
+	_, err = db.Exec(sqlStr2, ts.Status, ts.Title, ts.Content, ts.StartTime, ts.EndTime, taskId)
+
+	fmt.Println(err)
 	return
 }

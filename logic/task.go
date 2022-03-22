@@ -31,6 +31,6 @@ func GetTaskListByUserId(userId int64, p *models.TaskListParam) ([]*models.Task,
 }
 
 // UpdateTask 更新当前task信息
-func UpdateTask(taskId, userId int64) (err error) {
-	return mysql.UpdateTask(taskId, userId)
+func UpdateTask(taskId, userId int64, UpdateTaskInfo *models.UpdateTask) (err error) {
+	return mysql.UpdateTask(taskId, userId, UpdateTaskInfo)
 }

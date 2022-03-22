@@ -143,8 +143,16 @@ func UpdateTaskHandler(c *gin.Context) {
 		return
 	}
 
-	// 3. 业务逻辑
-	err = logic.UpdateTask(taskId, userId)
+	// 3. 解析更新参数
+	UpdateTaskInfo := new(models.UpdateTask)
+	if err := c.ShouldBindJSON(UpdateTaskInfo); err != nil {
+		zap.L().Error("[package: controllers] [func: UpdateTaskHandler] [c.ShouldBindJSON(UpdateTaskInfo)] failed, ", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	// 4. 业务逻辑
+	err = logic.UpdateTask(taskId, userId, UpdateTaskInfo)
 	if err != nil {
 		if errors.Is(err, mysql.ErrorPermissionDenied) {
 			ResponseError(c, CodePermissionDenied)
@@ -155,6 +163,6 @@ func UpdateTaskHandler(c *gin.Context) {
 		return
 	}
 
-	// 4. 返回响应
+	// 5. 返回响应
 	ResponseSuccess(c, nil)
 }
