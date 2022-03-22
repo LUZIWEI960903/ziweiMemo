@@ -191,7 +191,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "id",
+                        "description": "task的id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -202,6 +202,51 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers._ResponseShowATask"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "task接口"
+                ],
+                "summary": "更新指定task信息的接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "task的id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "需要上传的json",
+                        "name": "update_task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers._RequestUpdateTask"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers._ResponseUpdateTask"
                         }
                     }
                 }
@@ -225,6 +270,34 @@ const docTemplate = `{
                     "description": "备忘录标题",
                     "type": "string",
                     "example": "卷卷卷"
+                }
+            }
+        },
+        "controllers._RequestUpdateTask": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "备忘录内容",
+                    "type": "string"
+                },
+                "end_time": {
+                    "description": "备忘录结束时间",
+                    "type": "string",
+                    "example": ""
+                },
+                "start_time": {
+                    "description": "备忘录开始时间",
+                    "type": "string",
+                    "example": ""
+                },
+                "status": {
+                    "description": "完成状态，默认0（未完成），1（完成）",
+                    "type": "string",
+                    "example": "0"
+                },
+                "title": {
+                    "description": "备忘录标题",
+                    "type": "string"
                 }
             }
         },
@@ -309,6 +382,21 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.Task"
                     }
+                },
+                "msg": {
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
+        "controllers._ResponseUpdateTask": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
                 },
                 "msg": {
                     "description": "信息",

@@ -14,6 +14,27 @@ definitions:
     - content
     - title
     type: object
+  controllers._RequestUpdateTask:
+    properties:
+      content:
+        description: 备忘录内容
+        type: string
+      end_time:
+        description: 备忘录结束时间
+        example: ""
+        type: string
+      start_time:
+        description: 备忘录开始时间
+        example: ""
+        type: string
+      status:
+        description: 完成状态，默认0（未完成），1（完成）
+        example: "0"
+        type: string
+      title:
+        description: 备忘录标题
+        type: string
+    type: object
   controllers._ResponseCreateTask:
     properties:
       code:
@@ -74,6 +95,17 @@ definitions:
         items:
           $ref: '#/definitions/models.Task'
         type: array
+      msg:
+        description: 信息
+        example: Success!!
+        type: string
+    type: object
+  controllers._ResponseUpdateTask:
+    properties:
+      code:
+        description: 状态码
+        example: 1000
+        type: integer
       msg:
         description: 信息
         example: Success!!
@@ -257,7 +289,7 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: id
+      - description: task的id
         in: path
         name: id
         required: true
@@ -270,6 +302,36 @@ paths:
           schema:
             $ref: '#/definitions/controllers._ResponseShowATask'
       summary: 展示一条task详情的接口
+      tags:
+      - task接口
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bearer JWT
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: task的id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 需要上传的json
+        in: body
+        name: update_task
+        required: true
+        schema:
+          $ref: '#/definitions/controllers._RequestUpdateTask'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._ResponseUpdateTask'
+      summary: 更新指定task信息的接口
       tags:
       - task接口
 swagger: "2.0"

@@ -55,7 +55,7 @@ func CreateTaskHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Bearer JWT"
-// @Param   id     path    string     true        "id"
+// @Param id path string true "task的id"
 // @Success 200 {object} _ResponseShowATask
 // @Router /task/{id} [get]
 func ShowATaskHandler(c *gin.Context) {
@@ -126,6 +126,15 @@ func ShowAllTaskHandler(c *gin.Context) {
 }
 
 // UpdateTaskHandler 更新指定task信息的接口
+// @Summary 更新指定task信息的接口
+// @Tags task接口
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer JWT"
+// @Param id path string true "task的id"
+// @Param update_task body _RequestUpdateTask true "需要上传的json"
+// @Success 200 {object} _ResponseUpdateTask
+// @Router /task/{id} [put]
 func UpdateTaskHandler(c *gin.Context) {
 	// 1. 解析参数
 	taskIdStr := c.Param("id")
