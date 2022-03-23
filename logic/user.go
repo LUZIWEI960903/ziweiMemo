@@ -48,3 +48,20 @@ func UserLogin(p *models.LoginParams) (user *models.User, err error) {
 	user.Token = token
 	return
 }
+
+// ChangePassword 处理user修改密码业务
+func ChangePassword(p *models.ChangePasswordParams) (err error) {
+	// 1. 构造user实例
+	user := &models.User{
+		UserID:   p.UserId,
+		Password: p.OPassword,
+	}
+
+	// 2. 判断旧密码是否正确
+	if err = mysql.IsOpasswordCorrect(user); err != nil {
+		return
+	}
+
+	// 3. 把新的密码更新进数据库
+	return mysql.ChangePassword(p)
+}

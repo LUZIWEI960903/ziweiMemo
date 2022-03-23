@@ -80,3 +80,25 @@ func UserLoginHandler(c *gin.Context) {
 		"token":    user.Token,
 	})
 }
+
+// ChangePasswordHandler 修改用户密码的接口
+func ChangePasswordHandler(c *gin.Context) {
+	// 解析参数
+	p := new(models.ChangePasswordParams)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("[package: controllers] [func: ChangePasswordHandler] [c.ShouldBindJSON(p)] failed, ", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	// 业务逻辑
+	err := logic.ChangePassword(p)
+	if err != nil {
+		zap.L().Error("[package: controllers] [func: ChangePasswordHandler] [logic.ChangePassword(p)] failed, ", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 返回响应
+	ResponseSuccess(c, nil)
+}

@@ -66,3 +66,34 @@ func UserLogin(user *models.User) (err error) {
 
 	return
 }
+
+// IsOpasswordCorrect 验证旧密码是否正确
+func IsOpasswordCorrect(user *models.User) (err error) {
+	oPassword := user.Password
+
+	sqlStr := `select user_id, username, password from user where user_id = ?;`
+	err = db.Get(user, sqlStr, user.UserID)
+	if err == sql.ErrNoRows { // 用户不存在
+		return ErrorUserNotExist
+	}
+
+	if err != nil { // 查询失败
+		return err
+	}
+
+	// 查询成功  验证密码
+	if encryptPassword(oPassword) != user.Password {
+		return ErrorInvalidPassword
+	}
+
+	return
+}
+
+// ChangePassword 更新用户密码
+func ChangePassword(p *models.ChangePasswordParams) (err error) {
+	p.Password = encryptPassword(p.Password)
+	sqlStr := `update user set password=? where user_id=?;`
+	_, err = db.Exec(sqlStr, p.Password, p.UserId)
+
+	return
+}

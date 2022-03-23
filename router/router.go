@@ -34,6 +34,8 @@ func SetUp(cfgMode string) *gin.Engine {
 	// 以下接口需要通过JWT认证后才能访问
 	v1.Use(middleware.JWTAuthMiddleware())
 	{
+		// 修改用户密码
+		v1.POST("/password", controllers.ChangePasswordHandler)
 		// 创建task
 		v1.POST("/task", controllers.CreateTaskHandler)
 		// 展示一条task

@@ -24,3 +24,11 @@ type TaskListParam struct {
 	Size  int64  `json:"size"`  // 每页的展示数量
 	Order string `json:"order"` // 排列顺序
 }
+
+// ChangePasswordParams 校验修改密码参数的结构体
+type ChangePasswordParams struct {
+	UserId     int64  `json:"user_id,string" binding:"required"`               // 用户名
+	OPassword  string `json:"o_password" binding:"required"`                   // 旧的密码
+	Password   string `json:"password" binding:"required"`                     // 新的密码
+	RePassword string `json:"re_password" binding:"required,eqfield=Password"` // 重复新的密码
+}
