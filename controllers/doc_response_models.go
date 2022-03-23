@@ -33,3 +33,7 @@ type _ResponseShowAllTask struct {
 type _ResponseUpdateTask struct {
 	_ResponseSuccess
 }
+
+type _ResponseDeleteTask struct {
+	_ResponseSuccess
+}

@@ -46,6 +46,17 @@ definitions:
         example: Success!!
         type: string
     type: object
+  controllers._ResponseDeleteTask:
+    properties:
+      code:
+        description: 状态码
+        example: 1000
+        type: integer
+      msg:
+        description: 信息
+        example: Success!!
+        type: string
+    type: object
   controllers._ResponseLogin:
     properties:
       code:
@@ -280,6 +291,30 @@ paths:
       tags:
       - task接口
   /task/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bearer JWT
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: task的id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._ResponseDeleteTask'
+      summary: 删除指定task的接口
+      tags:
+      - task接口
     get:
       consumes:
       - application/json

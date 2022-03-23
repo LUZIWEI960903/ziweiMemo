@@ -177,6 +177,14 @@ func UpdateTaskHandler(c *gin.Context) {
 }
 
 // DeleteATaskHandler 删除指定task的接口
+// @Summary 删除指定task的接口
+// @Tags task接口
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer JWT"
+// @Param id path string true "task的id"
+// @Success 200 {object} _ResponseDeleteTask
+// @Router /task/{id} [delete]
 func DeleteATaskHandler(c *gin.Context) {
 	// 解析参数
 	taskIdStr := c.Param("id")

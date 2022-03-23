@@ -250,6 +250,42 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "task接口"
+                ],
+                "summary": "删除指定task的接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "task的id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers._ResponseDeleteTask"
+                        }
+                    }
+                }
             }
         }
     },
@@ -302,6 +338,21 @@ const docTemplate = `{
             }
         },
         "controllers._ResponseCreateTask": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
+                },
+                "msg": {
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
+        "controllers._ResponseDeleteTask": {
             "type": "object",
             "properties": {
                 "code": {
