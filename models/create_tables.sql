@@ -29,3 +29,5 @@ CREATE TABLE `task` (
     UNIQUE KEY `idx_task_id` (`task_id`),
     KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `task` ADD COLUMN `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否删除';

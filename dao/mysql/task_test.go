@@ -46,7 +46,11 @@ func TestGetTaskListByUserId(t *testing.T) {
 }
 
 func TestUpdateTask(t *testing.T) {
-	ts := new(models.UpdateTask)
+	ts := &models.UpdateTask{
+		Status:  0,
+		Title:   "我是修改3333",
+		Content: "我是修改的内容33333",
+	}
 	if err := UpdateTask(2687250877911040, 453796320776192, ts); err != nil {
 		t.Fatal("failed~~")
 	}

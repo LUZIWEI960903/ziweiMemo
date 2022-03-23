@@ -52,7 +52,7 @@ func (t Time1) MarshalJSON() ([]byte, error) {
 func (t Time1) Value() (driver.Value, error) {
 	// 0001-01-01 00:00:00 属于空值，遇到空值解析成 null 即可
 	if t.String() == "0001-01-01 00:00:00" {
-		return nil, nil
+		return time.Now(), nil
 	}
 	return []byte(time.Time(t).Format(TimeFormat)), nil
 }
