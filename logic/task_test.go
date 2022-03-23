@@ -26,10 +26,10 @@ func TestCreateTask(t *testing.T) {
 		Status:     0,
 		Title:      "卷卷卷",
 		Content:    "生命不惜，卷卷不止~~",
-		StartTime:  time.Time{},
-		EndTime:    time.Time{},
-		CreateTime: time.Time{},
-		UpdateTime: time.Time{},
+		StartTime:  models.Time1{},
+		EndTime:    models.Time1{},
+		CreateTime: models.Time1{},
+		UpdateTime: models.Time1{},
 	}
 	assert.Equal(t, task.TaskID, GenID)
 	assert.Equal(t, task.UserId, int64(936021537591296))

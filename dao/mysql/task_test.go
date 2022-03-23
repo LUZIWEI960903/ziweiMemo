@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"testing"
-	"time"
 	"ziweiMemo/models"
 )
 
@@ -13,10 +12,10 @@ func TestCreateTask(t *testing.T) {
 		Status:     0,
 		Title:      "just a test",
 		Content:    "test test test~~",
-		StartTime:  time.Time{},
-		EndTime:    time.Time{},
-		CreateTime: time.Time{},
-		UpdateTime: time.Time{},
+		StartTime:  models.Time1{},
+		EndTime:    models.Time1{},
+		CreateTime: models.Time1{},
+		UpdateTime: models.Time1{},
 	}
 	if err := CreateTask(task); err != nil {
 		t.Fatal("failed~~")
@@ -44,4 +43,12 @@ func TestGetTaskListByUserId(t *testing.T) {
 	for _, v := range taskList {
 		t.Logf("%v\n", *v)
 	}
+}
+
+func TestUpdateTask(t *testing.T) {
+	ts := new(models.UpdateTask)
+	if err := UpdateTask(2687250877911040, 453796320776192, ts); err != nil {
+		t.Fatal("failed~~")
+	}
+	t.Log("success!!")
 }
