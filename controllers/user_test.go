@@ -67,3 +67,35 @@ func TestUserLoginHandler(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Contains(t, w.Body.String(), "参数校验成功")
 }
+
+func changePasswordHandler(c *gin.Context) {
+	p := new(models.ChangePasswordParams)
+	if err := c.ShouldBindJSON(p); err != nil {
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"user_id":     p.UserId,
+		"o_password":  p.OPassword,
+		"password":    p.Password,
+		"re_password": p.RePassword,
+	})
+}
+
+func TestChangePasswordHandler(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	url := "/api/v1/password"
+	r.POST(url, changePasswordHandler)
+
+	body := `{"user_id":"936021537591296","o_password":"123456","password":"12345","re_password":"12345"}`
+
+	req, _ := http.NewRequest(http.MethodPost, url, bytes.NewReader([]byte(body)))
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Contains(t, w.Body.String(), "936021537591296")
+	assert.Contains(t, w.Body.String(), "123456")
+	assert.Contains(t, w.Body.String(), "12345")
+}
