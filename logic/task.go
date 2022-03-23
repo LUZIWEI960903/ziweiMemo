@@ -34,3 +34,8 @@ func GetTaskListByUserId(userId int64, p *models.TaskListParam) ([]*models.Task,
 func UpdateTask(taskId, userId int64, UpdateTaskInfo *models.UpdateTask) (err error) {
 	return mysql.UpdateTask(taskId, userId, UpdateTaskInfo)
 }
+
+// DeleteATask 删除当前task
+func DeleteATask(taskId, userId int64) (err error) {
+	return mysql.DeleteATask(taskId, userId)
+}

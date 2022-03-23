@@ -175,3 +175,36 @@ func UpdateTaskHandler(c *gin.Context) {
 	// 5. 返回响应
 	ResponseSuccess(c, nil)
 }
+
+// DeleteATaskHandler 删除指定task的接口
+func DeleteATaskHandler(c *gin.Context) {
+	// 解析参数
+	taskIdStr := c.Param("id")
+	taskId, err := strconv.ParseInt(taskIdStr, 10, 64)
+	if err != nil {
+		zap.L().Error("[package: controllers] [func: DeleteATaskHandler] [c.Param(\"id\")] failed, ", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	userId, err := getCurrentUserID(c)
+	if err != nil {
+		ResponseError(c, CodeNeedLogin)
+		return
+	}
+
+	// 业务逻辑
+	err = logic.DeleteATask(taskId, userId)
+	if err != nil {
+		if errors.Is(err, mysql.ErrorPermissionDenied) {
+			ResponseError(c, CodePermissionDenied)
+			return
+		}
+		zap.L().Error("[package: controllers] [func: DeleteATaskHandler] [logic.DeleteATask(taskId,userId)] failed, ", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 返回响应
+	ResponseSuccess(c, nil)
+}

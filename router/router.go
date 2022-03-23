@@ -42,6 +42,8 @@ func SetUp(cfgMode string) *gin.Engine {
 		v1.GET("task", controllers.ShowAllTaskHandler)
 		// 更新指定task内容
 		v1.PUT("task/:id", controllers.UpdateTaskHandler)
+		// 删除指定task
+		v1.DELETE("task/:id", controllers.DeleteATaskHandler)
 	}
 
 	return r

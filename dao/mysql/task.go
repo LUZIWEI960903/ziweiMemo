@@ -48,12 +48,11 @@ func GetTaskListByUserId(userId int64, p *models.TaskListParam) (taskList []*mod
 	return
 }
 
-// UpdateTask 根据当前用户更新对应task的信息
-func UpdateTask(taskId, userId int64, ts *models.UpdateTask) (err error) {
-	// 查询该taskId
+// IsThisTaskBelongsUser 判断当前task是否属于当前用户
+func IsThisTaskBelongsUser(taskId, userId int64) (err error) {
 	task := new(models.Task)
-	sqlStr1 := `select task_id, user_id, status, title, content, start_time, end_time, create_time, update_time from task where task_id = ?;`
-	if err = db.Get(task, sqlStr1, taskId); err != nil {
+	sqlStr := `select task_id, user_id, status, title, content, start_time, end_time, create_time, update_time from task where task_id = ? and is_deleted=0;`
+	if err = db.Get(task, sqlStr, taskId); err != nil {
 		if err == sql.ErrNoRows {
 			return ErrorInvalidID
 		}
@@ -63,12 +62,34 @@ func UpdateTask(taskId, userId int64, ts *models.UpdateTask) (err error) {
 	if task.UserId != userId {
 		return ErrorPermissionDenied
 	}
+	return nil
+}
+
+// UpdateTask 根据当前用户更新对应task的信息
+func UpdateTask(taskId, userId int64, ts *models.UpdateTask) (err error) {
+	// 查询该taskId
+	if err = IsThisTaskBelongsUser(taskId, userId); err != nil {
+		return err
+	}
 
 	// 更新数据
-
-	sqlStr2 := `update task set status=?, title=?, content=?, start_time=?, end_time=? where task_id = ?;`
-	_, err = db.Exec(sqlStr2, ts.Status, ts.Title, ts.Content, ts.StartTime, ts.EndTime, taskId)
+	sqlStr := `update task set status=?, title=?, content=?, start_time=?, end_time=? where task_id = ?;`
+	_, err = db.Exec(sqlStr, ts.Status, ts.Title, ts.Content, ts.StartTime, ts.EndTime, taskId)
 
 	fmt.Println(err)
+	return
+}
+
+// DeleteATask 根据当前用户删除该条task
+func DeleteATask(taskId, userId int64) (err error) {
+	// 查询当前task是否为该用户
+	if err = IsThisTaskBelongsUser(taskId, userId); err != nil {
+		return err
+	}
+
+	// 更新该task的is_deleted字段
+	sqlStr := `update task set is_deleted=1 where task_id = ?;`
+	_, err = db.Exec(sqlStr, taskId)
+
 	return
 }
