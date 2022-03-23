@@ -140,3 +140,35 @@ func TestUpdateTaskHandler(t *testing.T) {
 	assert.Contains(t, w.Body.String(), "936021537591296")
 	assert.Contains(t, w.Body.String(), body)
 }
+
+func deleteATaskHandler(c *gin.Context) {
+	taskIdStr := c.Param("id")
+	taskId, err := strconv.ParseInt(taskIdStr, 10, 64)
+	if err != nil {
+		return
+	}
+
+	userIdStr := c.Request.Header.Get(ContextUserIDKey)
+
+	c.JSON(http.StatusOK, gin.H{
+		"taskId": taskId,
+		"userId": userIdStr,
+	})
+}
+
+func TestDeleteATaskHandler(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	url := "/api/v1/task/:id"
+	r.DELETE(url, deleteATaskHandler)
+
+	req, _ := http.NewRequest(http.MethodDelete, url, bytes.NewReader([]byte(nil)))
+	req.URL.Path = "/api/v1/task/2961887104864256"
+	req.Header.Set(ContextUserIDKey, "453796320776192")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Contains(t, w.Body.String(), "2961887104864256")
+	assert.Contains(t, w.Body.String(), "453796320776192")
+}
