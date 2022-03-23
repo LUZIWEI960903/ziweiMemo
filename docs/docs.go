@@ -49,6 +49,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/password": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户接口"
+                ],
+                "summary": "修改用户密码的接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "需要上传的json",
+                        "name": "update_password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ChangePasswordParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers._ResponseUpdatePassword"
+                        }
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "consumes": [
@@ -441,6 +481,21 @@ const docTemplate = `{
                 }
             }
         },
+        "controllers._ResponseUpdatePassword": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 1000
+                },
+                "msg": {
+                    "description": "信息",
+                    "type": "string",
+                    "example": "Success!!"
+                }
+            }
+        },
         "controllers._ResponseUpdateTask": {
             "type": "object",
             "properties": {
@@ -453,6 +508,34 @@ const docTemplate = `{
                     "description": "信息",
                     "type": "string",
                     "example": "Success!!"
+                }
+            }
+        },
+        "models.ChangePasswordParams": {
+            "type": "object",
+            "required": [
+                "o_password",
+                "password",
+                "re_password",
+                "user_id"
+            ],
+            "properties": {
+                "o_password": {
+                    "description": "旧的密码",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "新的密码",
+                    "type": "string"
+                },
+                "re_password": {
+                    "description": "重复新的密码",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户名",
+                    "type": "string",
+                    "example": "0"
                 }
             }
         },

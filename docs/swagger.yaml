@@ -111,6 +111,17 @@ definitions:
         example: Success!!
         type: string
     type: object
+  controllers._ResponseUpdatePassword:
+    properties:
+      code:
+        description: 状态码
+        example: 1000
+        type: integer
+      msg:
+        description: 信息
+        example: Success!!
+        type: string
+    type: object
   controllers._ResponseUpdateTask:
     properties:
       code:
@@ -121,6 +132,27 @@ definitions:
         description: 信息
         example: Success!!
         type: string
+    type: object
+  models.ChangePasswordParams:
+    properties:
+      o_password:
+        description: 旧的密码
+        type: string
+      password:
+        description: 新的密码
+        type: string
+      re_password:
+        description: 重复新的密码
+        type: string
+      user_id:
+        description: 用户名
+        example: "0"
+        type: string
+    required:
+    - o_password
+    - password
+    - re_password
+    - user_id
     type: object
   models.LoginParams:
     properties:
@@ -210,6 +242,32 @@ paths:
           schema:
             $ref: '#/definitions/controllers._ResponseLogin'
       summary: 用户登录的接口
+      tags:
+      - 用户接口
+  /password:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bearer JWT
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 需要上传的json
+        in: body
+        name: update_password
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePasswordParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._ResponseUpdatePassword'
+      summary: 修改用户密码的接口
       tags:
       - 用户接口
   /register:

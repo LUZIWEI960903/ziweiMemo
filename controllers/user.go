@@ -82,6 +82,14 @@ func UserLoginHandler(c *gin.Context) {
 }
 
 // ChangePasswordHandler 修改用户密码的接口
+// @Summary 修改用户密码的接口
+// @Tags 用户接口
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer JWT"
+// @Param update_password body models.ChangePasswordParams true "需要上传的json"
+// @Success 200 {object} _ResponseUpdatePassword
+// @Router /password [post]
 func ChangePasswordHandler(c *gin.Context) {
 	// 解析参数
 	p := new(models.ChangePasswordParams)

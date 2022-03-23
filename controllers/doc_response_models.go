@@ -37,3 +37,7 @@ type _ResponseUpdateTask struct {
 type _ResponseDeleteTask struct {
 	_ResponseSuccess
 }
+
+type _ResponseUpdatePassword struct {
+	_ResponseSuccess
+}
