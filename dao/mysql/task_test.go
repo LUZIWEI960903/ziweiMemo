@@ -56,3 +56,10 @@ func TestUpdateTask(t *testing.T) {
 	}
 	t.Log("success!!")
 }
+
+func TestDeleteATask(t *testing.T) {
+	if err := DeleteATask(2961887104864256, 453796320776192); err != nil {
+		t.Fatal("failed~~")
+	}
+	t.Log("success!!")
+}
